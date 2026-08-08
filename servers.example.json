@@ -1,0 +1,20 @@
+{
+  "defaults": {
+    "username": "youruser",
+    "port": 22,
+    "privateKeyPath": "~/.ssh/id_ed25519"
+  },
+  "servers": [
+    {
+      "name": "web-01",
+      "host": "192.168.1.10",
+      "description": "Main web server"
+    },
+    {
+      "name": "db-01",
+      "host": "192.168.1.11",
+      "username": "ubuntu",
+      "description": "Database server"
+    }
+  ]
+}

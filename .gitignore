@@ -1,0 +1,7 @@
+node_modules/
+dist/
+# Your real inventory stays local — it names hosts and usernames.
+servers.json
+
+# Managed SSH host-key trust store (learned fingerprints), generated at runtime.
+.host-keys.json

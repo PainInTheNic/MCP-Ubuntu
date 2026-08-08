@@ -1,0 +1,13 @@
+{
+  "defaults": {
+    "username": "testuser"
+  },
+  "servers": [
+    {
+      "name": "test-box",
+      "host": "127.0.0.1",
+      "port": 2222,
+      "description": "Smoke-test fixture; not a real machine"
+    }
+  ]
+}
