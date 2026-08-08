@@ -26,11 +26,11 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/PainInTheNic/mcp-ubuntu.git"
+    "url": "git+https://github.com/PainInTheNic/MCP-Ubuntu.git"
   },
-  "homepage": "https://github.com/PainInTheNic/mcp-ubuntu#readme",
+  "homepage": "https://github.com/PainInTheNic/MCP-Ubuntu#readme",
   "bugs": {
-    "url": "https://github.com/PainInTheNic/mcp-ubuntu/issues"
+    "url": "https://github.com/PainInTheNic/MCP-Ubuntu/issues"
   },
   "scripts": {
     "build": "tsc",
