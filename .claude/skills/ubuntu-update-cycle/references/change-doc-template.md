@@ -49,6 +49,20 @@ plain lines with escaped `#`/backslashes, and tables render with a blank header 
 above the bold labels. This matches the existing house style in the folder; don't
 fight it.
 
+**One exception that does need handling:** the importer treats `:Lock:` as an emoji
+shortcode, so `DPkg::Lock::Timeout=120` comes out garbled as `DPkg:ð:Timeout=120`
+(seen in CHG-2026.09.23-001; Nic fixed it by hand). Other `::` options like
+`Dpkg::Options::` survive fine. Wrapping the option in inline backticks
+(`` `DPkg::Lock::Timeout=120` ``) may avoid this, but that's untested, so don't rely
+on it. Always read the doc back after creating it with `read_file_content` and search
+for `ð` or other mojibake. If any turns up, tell Nic exactly where so he can fix it in
+the Doc, since the connector can't edit. Record whether the backtick workaround held
+here.
+
+The `create_file` `content` parameter must be **base64-encoded**. Plain markdown is
+rejected with "The file content is not a valid base64 string." Write the markdown to a
+scratchpad file and encode it with `base64 -i <file> | tr -d '\n'`.
+
 Use this exact skeleton:
 
 ```markdown

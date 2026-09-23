@@ -54,9 +54,16 @@ Always use:
 
 ```bash
 export DEBIAN_FRONTEND=noninteractive
-apt-get update -qq
-apt-get dist-upgrade -y -o Dpkg::Options::=--force-confdef -o Dpkg::Options::=--force-confold
+apt-get -o DPkg::Lock::Timeout=120 update -qq
+apt-get -o DPkg::Lock::Timeout=120 dist-upgrade -y -o Dpkg::Options::=--force-confdef -o Dpkg::Options::=--force-confold
 ```
+
+The `DPkg::Lock::Timeout=120` makes apt wait up to two minutes for a lock instead of
+failing immediately. Without it, the install can collide with a short-lived `apt-get`
+still holding `/var/lib/apt/lists/lock` (e.g. the cache refresh from the step 1 check,
+or `apt-daily`), fail with `E: Could not get lock`, and install nothing — this happened
+on Portal and PostgreSQL on 2026-09-23. If it still fails after the timeout, check what
+holds the lock (`ps -eo pid,etime,cmd | grep -E 'apt|dpkg|unattended'`) before retrying.
 
 **Never** run plain `apt-get upgrade` here. When a kernel or other dependency-changing
 package is pending, plain `upgrade` silently *keeps it back* — it reports success
@@ -79,6 +86,7 @@ rollout. Default to overriding it and installing anyway:
 
 ```bash
 apt-get install -y --only-upgrade \
+  -o DPkg::Lock::Timeout=120 \
   -o APT::Get::Always-Include-Phased-Updates=true \
   -o Dpkg::Options::=--force-confdef -o Dpkg::Options::=--force-confold \
   <package names from the deferred list>
