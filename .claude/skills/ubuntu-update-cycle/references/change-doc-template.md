@@ -52,12 +52,23 @@ fight it.
 **One exception that does need handling:** the importer treats `:Lock:` as an emoji
 shortcode, so `DPkg::Lock::Timeout=120` comes out garbled as `DPkg:ð:Timeout=120`
 (seen in CHG-2026.09.23-001; Nic fixed it by hand). Other `::` options like
-`Dpkg::Options::` survive fine. Wrapping the option in inline backticks
-(`` `DPkg::Lock::Timeout=120` ``) may avoid this, but that's untested, so don't rely
-on it. Always read the doc back after creating it with `read_file_content` and search
-for `ð` or other mojibake. If any turns up, tell Nic exactly where so he can fix it in
-the Doc, since the connector can't edit. Record whether the backtick workaround held
-here.
+`Dpkg::Options::` survive fine. **Only write `DPkg::Lock::Timeout=120` inside a fenced
+code block** (the section 3 command listing). That came through intact in
+CHG-2026.09.24-001. Never put it in prose, a table cell or inline backticks. The
+inline-backtick version has never been tested.
+
+**Underscores in table cells get mangled.** In CHG-2026.09.24-001, a table cell
+containing `/plex_unas` came out as `/plex\_unas`, with a visible backslash. In
+prose, bullets and fenced code blocks, underscores display fine. So keep table cells
+free of anything with `_` in it (paths like `/plex_unas`, `pg_isready`,
+`DEBIAN_FRONTEND`, tool names). Write the cell without it (e.g. "2/2 CIFS mounts")
+and put the exact name in a bullet or sentence under the table.
+
+**This is a one-shot write.** Nic does not want to hand-fix docs after the fact. Before
+creating, re-scan the markdown for the two hazards above. After creating, read the
+doc back with `read_file_content` and search for `ð`, other mojibake, or stray `\_`
+outside code. If anything still slipped through, add the pattern to this section so
+the next run avoids it. Mention it in the report, but don't ask Nic to fix it.
 
 The `create_file` `content` parameter must be **base64-encoded**. Plain markdown is
 rejected with "The file content is not a valid base64 string." Write the markdown to a
