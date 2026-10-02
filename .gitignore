@@ -5,3 +5,6 @@ servers.json
 
 # Managed SSH host-key trust store (learned fingerprints), generated at runtime.
 .host-keys.json
+
+# macOS Finder metadata
+.DS_Store
