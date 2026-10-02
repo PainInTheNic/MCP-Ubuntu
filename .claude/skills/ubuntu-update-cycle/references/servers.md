@@ -13,7 +13,7 @@ SSH host-key verification is TOFU (trust-on-first-use) via the MCP server's own
 hardening. If a connection is ever refused with a "host key changed" style error,
 that is a real signal worth surfacing to Nic, not a transient glitch to retry past.
 
-## Plex — 192.168.0.61 (user: plex)
+## Plex — 192.168.0.60 (user: plex)
 
 - **Role:** Plex Media Server. Lowest blast radius of the three — use as the canary.
 - **Boot time:** slower than Portal. Mounts two CIFS shares at boot (`/plex` from

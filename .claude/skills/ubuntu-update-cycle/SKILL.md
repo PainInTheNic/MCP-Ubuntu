@@ -11,7 +11,7 @@ arbitrary process for its own sake — each one exists because skipping it cause
 problem at least once. Read `references/lessons-learned.md` if you want the war stories
 behind a given step.
 
-**Servers:** Plex (192.168.0.61), Portal (192.168.0.116), PostgreSQL (192.168.0.134) —
+**Servers:** Plex (192.168.0.60), Portal (192.168.0.116), PostgreSQL (192.168.0.134) —
 full details, roles, and per-host health checks in `references/servers.md`. Use
 `ubuntu_list_servers` if you need to confirm the current inventory hasn't changed.
 
