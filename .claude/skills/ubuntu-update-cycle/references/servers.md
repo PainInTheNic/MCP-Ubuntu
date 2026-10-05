@@ -13,6 +13,13 @@ SSH host-key verification is TOFU (trust-on-first-use) via the MCP server's own
 hardening. If a connection is ever refused with a "host key changed" style error,
 that is a real signal worth surfacing to Nic, not a transient glitch to retry past.
 
+## Out of scope: Kitchen Sales Production VM
+
+The Production VM for Nic's Kitchen Sales side gig is **never** part of this cycle — no
+update checks, installs, reboots, or Change Management docs. It has its own automated
+update and change-management processes. If it ever appears in `ubuntu_list_servers`,
+skip it and note the skip in the report.
+
 ## Plex — 192.168.0.60 (user: plex)
 
 - **Role:** Plex Media Server. Lowest blast radius of the three — use as the canary.

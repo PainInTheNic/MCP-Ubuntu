@@ -15,6 +15,10 @@ behind a given step.
 full details, roles, and per-host health checks in `references/servers.md`. Use
 `ubuntu_list_servers` if you need to confirm the current inventory hasn't changed.
 
+**Never touch the Kitchen Sales Production VM** (Nic's side-gig server). It runs its own
+automated updates and change-management docs. Even if it shows up in the inventory, skip
+it entirely and mention the skip in your report.
+
 ## The workflow
 
 ### 1. Check
