@@ -20,6 +20,14 @@ update checks, installs, reboots, or Change Management docs. It has its own auto
 update and change-management processes. If it ever appears in `ubuntu_list_servers`,
 skip it and note the skip in the report.
 
+## Out of scope: Rex-PostgreSQL (camper)
+
+`Rex-PostgreSQL` (postgresql@100.93.156.59, PostgreSQL 18 on Ubuntu 26.04, a VM on
+rex-truenas) **is** in `servers.json`, but it is **not** part of this cycle. It has no
+passwordless sudo, and it is reached only over Tailscale by its tailnet IP, so it fails
+whenever this Mac is off the tailnet. Skip it and note the skip in the report. Read-only
+tools (overview, services, logs, update checks without `refresh_cache`) work on it.
+
 ## Plex — 192.168.0.60 (user: plex)
 
 - **Role:** Plex Media Server. Lowest blast radius of the three — use as the canary.

@@ -65,6 +65,7 @@ Notes:
 - The file is re-read on every tool call, so you can add servers without restarting anything.
 - Passwords are deliberately unsupported: key auth only. Keys with a passphrase work if the key is loaded in `ssh-agent`, or set the `UBUNTU_MCP_KEY_PASSPHRASE` environment variable.
 - **Host-key verification** authenticates the *server* (not just you). By default the server remembers each host's key on first connection and refuses to connect if that key later changes (the tell-tale sign of a man-in-the-middle). To pin a key up front, add `"fingerprint": "SHA256:…"` to an entry — get the value with `ssh-keyscan your-server | ssh-keygen -lf -`. See §7.
+- **Hosts reached over Tailscale** (for example the Rex camper's `Rex-PostgreSQL`) use the host's **tailnet IP** (100.x) as `host`, never a LAN address. Rex's LAN overlaps the home WiFi VLAN. **If this Mac isn't connected to the tailnet, every call to that host fails**, so check `tailscale_status` first. Pin the host's `fingerprint`: a keyscan run over the tailnet is authenticated by WireGuard, so it's a trustworthy source. Restrict the key on that host to the Mac's tailnet IP (`restrict,from="100.68.23.53"`), because connections over the tailnet always arrive from that address.
 
 ### c. Build and register with Claude Code
 

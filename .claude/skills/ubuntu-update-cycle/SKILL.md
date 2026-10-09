@@ -19,6 +19,10 @@ full details, roles, and per-host health checks in `references/servers.md`. Use
 automated updates and change-management docs. Even if it shows up in the inventory, skip
 it entirely and mention the skip in your report.
 
+**Rex-PostgreSQL is out of scope too** (the camper's database, reached over Tailscale).
+It has no passwordless sudo and isn't part of this home cycle. If it shows up in the
+inventory, skip it and mention the skip in your report.
+
 ## The workflow
 
 ### 1. Check
