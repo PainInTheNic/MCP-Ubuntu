@@ -1,10 +1,11 @@
 # Server inventory and per-host verification
 
-These three are configured in `servers.json` for the ubuntu-mcp-server; use
+These four (three at home, plus Rex-PostgreSQL in the camper) are configured in
+`servers.json` for the ubuntu-mcp-server; use
 `ubuntu_list_servers` if you need to confirm this is still current rather than trusting
 this file blindly — inventories can change.
 
-Passwordless sudo is `ALL=(ALL) NOPASSWD: ALL` on all three (set up after the OpenClaw
+Passwordless sudo is `ALL=(ALL) NOPASSWD: ALL` on all four (set up on the home hosts after the OpenClaw
 decommission in August 2026 — see the `postgresql-server-state` and
 `ubuntu-mcp-server-project` memory files for that history). `ubuntu_run_command` with
 `sudo: true` works broadly; you don't need to work around scoped sudo restrictions.
@@ -20,14 +21,37 @@ update checks, installs, reboots, or Change Management docs. It has its own auto
 update and change-management processes. If it ever appears in `ubuntu_list_servers`,
 skip it and note the skip in the report.
 
-## Out of scope: Rex-PostgreSQL (camper)
+## Rex-PostgreSQL — 100.93.156.59 (user: postgresql) — remote, over Tailscale
 
-`Rex-PostgreSQL` (postgresql@100.93.156.59, PostgreSQL 18 on Ubuntu 26.04, a VM on
-rex-truenas) **is** in `servers.json`, but it is **not** part of this cycle. It is
-reached only over Tailscale by its tailnet IP, so it fails whenever this Mac is off the
-tailnet. Skip it and note the skip in the report. Passwordless sudo is set up the same
-way as the home hosts (`/etc/sudoers.d/ubuntu-mcp-server`, `NOPASSWD: ALL`, added
-2026-10-09), so it can be patched on request. Its cluster is `postgresql@18-main`.
+- **Role:** the camper's PostgreSQL 18 database (`postgresql@18-main`, port 5432),
+  serving its own `homeassistant` database for Rex's Home Assistant. It's live data, so
+  give it the same scrutiny as the home PostgreSQL host.
+- **Where:** a VM on rex-truenas, listed there by `truenas_list_vms` as `PostgreSQL`
+  (the other VM, `HomeAssistant`, isn't this host). Ubuntu 26.04, unlike the home hosts'
+  24.04, so Plex isn't a canary for its packages. Reached **only** by its tailnet IP over
+  a cellular link. It fails whenever this Mac is off the tailnet. Follow the
+  "Remote host: Rex-PostgreSQL" rules in `SKILL.md`: longer waits, a detached install,
+  and Tailscale link recovery.
+- **Sudo:** the same as the home hosts (`/etc/sudoers.d/ubuntu-mcp-server`,
+  `NOPASSWD: ALL`, added 2026-10-09). An older scoped rule file, `postgresql-updates`,
+  is still there and is redundant.
+- **SSH:** host key pinned in `servers.json` (ED25519
+  `SHA256:vTsWSrpeuH7O8Ojkgnbmba5ub3GTmW7NU0ErCmM6zD4`). The MCP key only works from
+  this Mac's tailnet IP (`from="100.68.23.53"`). Its hostname is also `PostgreSQL`, so
+  identify it by the server name, not `hostname`.
+- **Boot time:** slowest of the four. The VM boots, then Tailscale on it has to reconnect
+  over cellular before SSH answers. No network mounts.
+- **PG18 is correct here.** Unlike the home host, PG18 packages in an update check are
+  expected.
+- **Key service check:**
+  ```bash
+  systemctl is-active postgresql@18-main
+  pg_isready
+  sudo -u postgres psql -d homeassistant -tAc \
+    "select 'OK, tables='||count(*) from information_schema.tables where table_schema='public';"
+  ```
+  The baseline is **13 tables** (as of 2026-10-09). As at home, what matters is
+  consistency: if the count drops sharply or the query errors, stop and investigate.
 
 ## Plex — 192.168.0.60 (user: plex)
 

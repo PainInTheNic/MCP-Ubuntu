@@ -109,14 +109,19 @@ could follow along and re-run them if needed.
 The concrete evidence each host came back healthy: reboot flag cleared, kernel
 version, `systemctl is-system-running`, `--failed` output, and the per-host service
 check from `references/servers.md` (Plex media mounts, Portal Apache, PostgreSQL
-`pg_isready` + table count). Show actual output, not just "verified".
+`pg_isready` + table count, and the same `postgresql@18-main` / `pg_isready` / table
+count on Rex-PostgreSQL). Show actual output, not just "verified". If Rex was stopped
+before finishing, say exactly where it was left; the "Stop and report" rule in
+`SKILL.md` lists the cases.
 
 ## 5️⃣ Regression Risk & Rollback Plan
 
 Name the real risks for *this specific change* (a glibc bump carries different risk
 than a MOTD config package) and how they were mitigated or ruled out. Include an
 actual rollback command using the old version numbers — `apt-get install
-pkg=<old-version>`, plus `sudo reboot` if glibc/kernel was involved.
+pkg=<old-version>`, plus `sudo reboot` if glibc/kernel was involved. When Rex took
+part, cover its link too: any outage or Tailscale toggles during the run, and the fact
+that Plex isn't a canary for Rex (Rex runs a different Ubuntu release).
 
 ---
 
@@ -133,7 +138,7 @@ correctly matters for the sequence-number check on any future doc filed the same
   purely a formality (e.g. firmware blobs with no service impact).
 - **Low-Medium:** a kernel or glibc update requiring a real reboot on one or more
   hosts, run with the default canary-then-parallel staging.
-- **Medium:** the same, but run fully in parallel across all three at once (the
+- **Medium:** the same, but run fully in parallel across the three home hosts at once (the
   staged safety margin was intentionally skipped) — say so explicitly in both the
   background section and the risk section, don't just pick "Medium" without
   explaining why.
