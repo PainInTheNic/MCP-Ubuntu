@@ -23,10 +23,11 @@ skip it and note the skip in the report.
 ## Out of scope: Rex-PostgreSQL (camper)
 
 `Rex-PostgreSQL` (postgresql@100.93.156.59, PostgreSQL 18 on Ubuntu 26.04, a VM on
-rex-truenas) **is** in `servers.json`, but it is **not** part of this cycle. It has no
-passwordless sudo, and it is reached only over Tailscale by its tailnet IP, so it fails
-whenever this Mac is off the tailnet. Skip it and note the skip in the report. Read-only
-tools (overview, services, logs, update checks without `refresh_cache`) work on it.
+rex-truenas) **is** in `servers.json`, but it is **not** part of this cycle. It is
+reached only over Tailscale by its tailnet IP, so it fails whenever this Mac is off the
+tailnet. Skip it and note the skip in the report. Passwordless sudo is set up the same
+way as the home hosts (`/etc/sudoers.d/ubuntu-mcp-server`, `NOPASSWD: ALL`, added
+2026-10-09), so it can be patched on request. Its cluster is `postgresql@18-main`.
 
 ## Plex — 192.168.0.60 (user: plex)
 

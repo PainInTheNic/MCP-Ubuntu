@@ -20,8 +20,8 @@ automated updates and change-management docs. Even if it shows up in the invento
 it entirely and mention the skip in your report.
 
 **Rex-PostgreSQL is out of scope too** (the camper's database, reached over Tailscale).
-It has no passwordless sudo and isn't part of this home cycle. If it shows up in the
-inventory, skip it and mention the skip in your report.
+It isn't part of this home cycle. If it shows up in the inventory, skip it and mention
+the skip in your report. Patch it only when Nic asks for it specifically.
 
 ## The workflow
 
