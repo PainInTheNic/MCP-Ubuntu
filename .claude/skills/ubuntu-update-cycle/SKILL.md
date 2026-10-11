@@ -166,15 +166,22 @@ a clean read before trusting a "0 pending" result. This is also where you'd noti
 
 ### 8. Document in Change Management
 
-**Write one doc, once every host is finished:** the home hosts verified, and Rex either
-verified or stopped under its rules (**Stop and report** in the Rex section, which also
-bounds how long that can take). The home hosts' install and verification never wait on
-Rex; only this doc and the step 9 report do. If Rex's outcome becomes known after the doc
-is filed, file a separate doc for Rex with the next sequence number. Rex's part of the
-doc: its service check in section 4 (`postgresql@18-main`, `pg_isready`, table count),
-and any link outage and each Tailscale toggle in sections 1 and 5.
+**Follow the `change-management` skill** (in `~/.claude/skills`) for folders, numbering,
+naming and formatting hazards; it is the source of truth. **Rex is documented
+separately from View** (Nic, 2026-10-11):
 
-**Before creating anything, look up what's already been filed for today's date** — see
+- **View record** (Plex, Portal, PostgreSQL) in the View folder
+  `1YcAyiuJxiTKkr_uLY6sfTn0WuOPY52o5`, title `CHG-YYYY.MM.DD-NNN …`. File it once the
+  home hosts are verified; it never waits on Rex.
+- **Rex record** (Rex-PostgreSQL) in the Rex folder `11pRN6VSPrqvz6vSTLaJd59V1_KWdMdJq`
+  (Home Lab > Change Management > Rex > 2026), title `CHG-REX-YYYY.MM.DD-NNN …`, its own
+  daily sequence. File it once Rex is verified or stopped under its rules (**Stop and
+  report** in the Rex section). It covers Rex's service check in section 4
+  (`postgresql@18-main`, `pg_isready`, table count) and any link outage and each
+  Tailscale toggle in sections 1 and 5.
+- If no updates were installed on a site, that site gets no record.
+
+**Before creating anything, look up what's already been filed for today's date in that site's folder** — see
 `references/change-doc-template.md` for the exact Drive query. Other automated
 processes and Nic himself both file docs in this folder, so a given day usually
 already has entries by the time you get here. Never assume you're `-001`; take the

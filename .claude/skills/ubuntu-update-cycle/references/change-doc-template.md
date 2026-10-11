@@ -2,9 +2,16 @@
 
 ## Where it lives
 
-Google Drive, via the Drive MCP tools (`search_files`, `create_file`, etc.). Folder:
-**Home Lab > Change Management > 2026** — folder ID `1YcAyiuJxiTKkr_uLY6sfTn0WuOPY52o5`.
-All docs sit directly in the year folder; there are no month subfolders.
+Google Drive, via the Drive MCP tools (`search_files`, `create_file`, etc.). The
+`change-management` skill (`~/.claude/skills/change-management`) is the source of truth for
+folders, numbering and naming; this file keeps the patch-cycle specifics.
+
+- **View** (Plex, Portal, PostgreSQL): **Home Lab > Change Management > 2026** — folder ID
+  `1YcAyiuJxiTKkr_uLY6sfTn0WuOPY52o5`, titles `CHG-YYYY.MM.DD-NNN …`.
+- **Rex** (Rex-PostgreSQL): **Home Lab > Change Management > Rex > 2026** — folder ID
+  `11pRN6VSPrqvz6vSTLaJd59V1_KWdMdJq`, titles `CHG-REX-YYYY.MM.DD-NNN …`, own sequence.
+
+All records sit directly in the year folders; there are no month subfolders.
 
 **The Drive connector available here is read/create only** — no edit, update, delete,
 or trash tool. Get a doc right before creating it; if you need to fix one after the
@@ -32,13 +39,15 @@ folder UI, which is more trustworthy than an API search here.
 ## Filename convention
 
 ```
-YYYY.MM.DD-NNN Title In Title Case
+CHG-YYYY.MM.DD-NNN Title In Title Case        (View)
+CHG-REX-YYYY.MM.DD-NNN Title In Title Case    (Rex)
 ```
 
 - Dots in the date, not dashes.
 - `NNN` is a 3-digit sequence, reset per day, starting at `001`.
-- **No `CHG-` prefix in the filename** — that prefix belongs only inside the document
-  body's H1.
+- **Filenames now carry the prefix** (`CHG-` for View, `CHG-REX-` for Rex), matching the
+  H1, per the `change-management` skill (2026-10-11). Older patch records without it stay
+  as they are.
 - Title is a short, plain-English description of what changed.
 
 ## Document structure
