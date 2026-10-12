@@ -33,14 +33,20 @@ skip it and note the skip in the report.
   "Remote host: Rex-PostgreSQL" rules in `SKILL.md`: longer waits, a detached install,
   and Tailscale link recovery.
 - **Sudo:** the same as the home hosts (`/etc/sudoers.d/ubuntu-mcp-server`,
-  `NOPASSWD: ALL`, added 2026-10-09). An older scoped rule file, `postgresql-updates`,
-  is still there and is redundant.
+  `NOPASSWD: ALL`, added 2026-10-09). The older OpenClaw rule file `postgresql-updates`
+  was removed 2026-10-11, along with the rest of OpenClaw (user, crontabs, scripts, DB
+  role).
 - **SSH:** host key pinned in `servers.json` (ED25519
   `SHA256:vTsWSrpeuH7O8Ojkgnbmba5ub3GTmW7NU0ErCmM6zD4`). The MCP key only works from
   this Mac's tailnet IP (`from="100.68.23.53"`). Its hostname is also `PostgreSQL`, so
   identify it by the server name, not `hostname`.
 - **Boot time:** slowest of the four. The VM boots, then Tailscale on it has to reconnect
-  over cellular before SSH answers. No network mounts.
+  over cellular before SSH answers (about 2 minutes on 2026-10-11). One network mount:
+  `/PostgreSQL_Backups` (CIFS to the TrueNAS at Rex); check `mountpoint /PostgreSQL_Backups`
+  after a reboot.
+- **`/tmp` is on disk on purpose** (`tmp.mount` masked 2026-10-11), matching the home
+  hosts. Ubuntu 26.04's default 1.7 GB tmpfs `/tmp` broke the nightly Webmin backup. If an
+  update ever unmasks it, mask it again and tell Nic.
 - **PG18 is correct here.** Unlike the home host, PG18 packages in an update check are
   expected.
 - **Key service check:**
