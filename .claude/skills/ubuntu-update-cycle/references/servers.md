@@ -5,8 +5,7 @@ These four (three at home, plus Rex-PostgreSQL in the camper) are configured in
 `ubuntu_list_servers` if you need to confirm this is still current rather than trusting
 this file blindly — inventories can change.
 
-Passwordless sudo is `ALL=(ALL) NOPASSWD: ALL` on all four (set up on the home hosts after the OpenClaw
-decommission in August 2026 — see the `postgresql-server-state` and
+Passwordless sudo is `ALL=(ALL) NOPASSWD: ALL` on all four (set up on the home hosts in August 2026 — see the `postgresql-server-state` and
 `ubuntu-mcp-server-project` memory files for that history). `ubuntu_run_command` with
 `sudo: true` works broadly; you don't need to work around scoped sudo restrictions.
 
@@ -33,9 +32,8 @@ skip it and note the skip in the report.
   "Remote host: Rex-PostgreSQL" rules in `SKILL.md`: longer waits, a detached install,
   and Tailscale link recovery.
 - **Sudo:** the same as the home hosts (`/etc/sudoers.d/ubuntu-mcp-server`,
-  `NOPASSWD: ALL`, added 2026-10-09). The older OpenClaw rule file `postgresql-updates`
-  was removed 2026-10-11, along with the rest of OpenClaw (user, crontabs, scripts, DB
-  role).
+  `NOPASSWD: ALL`, added 2026-10-09). An older sudo rule file `postgresql-updates`
+  was removed 2026-10-11.
 - **SSH:** host key pinned in `servers.json` (ED25519
   `SHA256:vTsWSrpeuH7O8Ojkgnbmba5ub3GTmW7NU0ErCmM6zD4`). The MCP key only works from
   this Mac's tailnet IP (`from="100.68.23.53"`). Its hostname is also `PostgreSQL`, so
@@ -59,7 +57,7 @@ skip it and note the skip in the report.
   The baseline is **13 tables** (as of 2026-10-09). As at home, what matters is
   consistency: if the count drops sharply or the query errors, stop and investigate.
 
-## Plex — 192.168.0.60 (user: plex)
+## Plex — 192.168.0.61 (user: plex; DHCP reservation in UniFi since 2026-10-23)
 
 - **Role:** Plex Media Server. Lowest blast radius of the three — use as the canary.
 - **Boot time:** slower than Portal. Mounts two CIFS shares at boot (`/plex` from
@@ -93,9 +91,6 @@ skip it and note the skip in the report.
   used and were removed in August 2026. If PG18 packages show up again in an update
   check, something re-added that meta-package — worth a note to Nic rather than
   silently reinstalling PG18 alongside 16.
-- `alf_memory` (a former vector database used by a since-decommissioned tool called
-  OpenClaw) no longer exists. Don't expect to find it; its absence is expected, not a
-  problem.
 - **Key service check:**
   ```bash
   systemctl is-active postgresql@16-main
